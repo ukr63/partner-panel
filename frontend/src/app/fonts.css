@@ -1,0 +1,5 @@
+@font-face {
+    font-family: 'AvenirMedium';   /* you can replace `MyCustomFont` with any other name */
+    src: url('/fonts/AvenirMedium.ttf');
+    /* add 'path-to-your-font-file.ttf' with the actual path to your .ttf file */
+}
