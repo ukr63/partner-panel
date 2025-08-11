@@ -1,0 +1,15 @@
+nelmio_cors:
+    defaults:
+        origin_regex: true                     # Use regex to match origins.
+        allow_origin: ['*']                    # Allow requests from any origin.
+        allow_credentials: true                # Allow cookies and authorization headers.
+        allow_methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE']
+        allow_headers: ['Content-Type', 'Authorization', 'X-Requested-With', 'Origin', 'Accept']
+        expose_headers: ['Authorization', 'Content-Type']
+        max_age: 3600                          # Cache preflight responses for an hour.
+    paths:
+        '^/api/':
+            allow_origin: [ '*' ]
+            allow_headers: [ '*' ]
+            allow_methods: [ 'POST', 'PUT', 'GET', 'DELETE' ]
+            max_age: 3600

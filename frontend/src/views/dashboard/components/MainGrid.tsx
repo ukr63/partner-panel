@@ -11,51 +11,72 @@ import HighlightedCard from './HighlightedCard';
 import PageViewsBarChart from './PageViewsBarChart';
 import SessionsChart from './SessionsChart';
 import StatCard, {StatCardProps} from './StatCard';
+import {useEffect, useState} from "react";
+import StatisticsModel from "@/models/statistics";
 
-const data: StatCardProps[] = [
+const preData: any[] = [
     {
         title: 'Income Today',
-        value: '200$',
+        value: '0$',
         interval: 'Last 30 days',
         trend: 'up',
-        data: [
-            500, 400, 510, 530, 520, 600, 530, 520, 510, 730, 520, 510, 530, 620, 510, 530,
-            520, 410, 530, 520, 610, 530, 520, 610, 530, 420, 510, 430, 520, 510,
-        ],
+        dates: [],
+        total: [],
     },
     {
         title: 'Registrations',
-        value: '144k',
+        value: '0',
         interval: 'Last 30 days',
-        trend: 'up',
-        data: [
-            200, 24, 220, 260, 240, 380, 100, 240, 280, 240, 300, 340, 320, 360, 340, 380,
-            360, 400, 380, 420, 400, 640, 340, 460, 440, 480, 460, 600, 880, 920,
-        ],
+        trend: 'neutral',
+        dates: [],
+        total: [],
     },
     {
         title: 'FD',
-        value: '325',
+        value: '0',
         interval: 'Last 30 days',
         trend: 'up',
-        data: [
-            1640, 1250, 970, 1130, 1050, 900, 720, 1080, 900, 450, 920, 820, 840, 600, 820,
-            780, 800, 760, 380, 740, 660, 620, 840, 500, 520, 480, 400, 360, 300, 220,
-        ],
+        dates: [],
+        total: [],
     },
     {
-        title: 'uClicks',
-        value: '200k',
+        id: 'clicks',
+        title: 'Clicks',
+        value: '0',
         interval: 'Last 30 days',
         trend: 'neutral',
-        data: [
-            500, 400, 510, 530, 520, 600, 530, 520, 510, 730, 520, 510, 530, 620, 510, 530,
-            520, 410, 530, 520, 610, 530, 520, 610, 530, 420, 510, 430, 520, 510,
-        ],
+        dates: [],
+        total: []
     },
 ];
 
 export default function MainGrid() {
+    const [gridData, setGridData] = useState(preData);
+
+    const fetchData = async () => {
+        let response: any = await StatisticsModel.getStatisticsDashboard();
+        response = response?.data;
+
+        setGridData((prevGridData) => {
+            const newArray = [...preData];
+
+            const item = newArray.find((entry: any) => entry?.id === 'clicks');
+            if (item) {
+                item.dates = response?.clicks.dates;
+                item.total = response?.clicks.total;
+                item.value = response?.clicks.total.reduce((a: any, b: any) => a + b, 0);
+            }
+
+            return newArray;
+        });
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+
+
     return (
         <Box sx={{width: '100%', maxWidth: {sm: '100%', md: '1700px'}}}>
             {/* cards */}
@@ -68,7 +89,7 @@ export default function MainGrid() {
                 columns={12}
                 sx={{mb: (theme) => theme.spacing(1)}}
             >
-                {data.map((card, index) => (
+                {gridData.map((card, index) => (
                     <Grid key={index} size={{xs: 12, sm: 6, lg: 3}}>
                         <StatCard {...card} />
                     </Grid>
@@ -83,7 +104,7 @@ export default function MainGrid() {
                 {/*    <PageViewsBarChart/>*/}
                 {/*</Grid>*/}
             </Grid>
-            <SessionsChart/>
+            {/*<SessionsChart/>*/}
             {/*<Typography component="h2" variant="h6" sx={{mb: 2}}>*/}
             {/*    Details*/}
             {/*</Typography>*/}
@@ -98,7 +119,7 @@ export default function MainGrid() {
             {/*        </Stack>*/}
             {/*    </Grid>*/}
             {/*</Grid>*/}
-            <Copyright sx={{my: 4}}/>
+            {/*<Copyright sx={{my: 4}}/>*/}
         </Box>
     );
 }

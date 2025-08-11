@@ -10,6 +10,7 @@ import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
 import MenuButton from './MenuButton';
 import MenuContent from './MenuContent';
 import CardAlert from './CardAlert';
+import {useSelector} from "react-redux";
 
 interface SideMenuMobileProps {
   open: boolean | undefined;
@@ -17,6 +18,8 @@ interface SideMenuMobileProps {
 }
 
 export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobileProps) {
+  const fullName = useSelector((state: any) => state?.user?.user?.full_name ?? '');
+
   return (
     <Drawer
       anchor="right"
@@ -43,12 +46,12 @@ export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobilePro
           >
             <Avatar
               sizes="small"
-              alt="Anton Sokur"
+              alt={fullName}
               src="/static/images/avatar/7.jpg"
               sx={{ width: 24, height: 24 }}
             />
             <Typography component="p" variant="h6">
-              Anton Sokur
+              {fullName}
             </Typography>
           </Stack>
           <MenuButton showBadge>

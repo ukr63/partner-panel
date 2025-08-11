@@ -1,0 +1,64 @@
+version: '3'
+
+networks:
+  backend:
+    driver: bridge
+
+services:
+  server-nginx:
+    build:
+      context: .docker/server_nginx
+    volumes:
+      - './server:/var/www/html'
+    restart: always
+    ports:
+      - "8080:80"
+      - "443:443"
+    networks:
+      - backend
+
+  server:
+    build:
+      context: .
+      dockerfile: .docker/server/Dockerfile
+    environment:
+      - PHP_IDE_CONFIG="serverName=partner.local"
+      - PHP_IDE_CONFIG=serverName=partner.local
+      - APP_DEBUG=0
+      - APP_URL=https://acd.solutions:3001
+    volumes:
+      - './server:/var/www/html'
+    restart: always
+    ports:
+      - 9000:9000
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - backend
+
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        composer install --working-dir=/var/www/html --no-dev --optimize-autoloader
+
+  frontend:
+    build:
+      context: .
+      dockerfile: .docker/frontend/Dockerfile
+    networks:
+      - backend
+    ports:
+      - "8090:80"
+      - "3001:3001"
+    volumes:
+      - './frontend:/app'
+    restart: always
+    environment:
+      NODE_ENV: production
+      NGINX_SERVER_BASE_URL: http://server-nginx
+
+volumes:
+  code:
+  mysql:
+  redis:

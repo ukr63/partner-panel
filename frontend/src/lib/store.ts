@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import SettingsReducer from "@/lib/reducers/settingsReducer";
+import UserReducer from "@/lib/reducers/userReducer";
 
 export const makeStore = () => {
     // @ts-ignore
     return configureStore({
         reducer: {
-            settings: SettingsReducer
+            settings: SettingsReducer,
+            user: UserReducer
         }
     })
 }

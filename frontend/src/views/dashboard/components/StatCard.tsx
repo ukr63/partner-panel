@@ -43,13 +43,16 @@ function AreaGradient({ color, id }: { color: string; id: string }) {
   );
 }
 
-export default function StatCard({
-  title,
-  value,
-  interval,
-  trend,
-  data,
-}: StatCardProps) {
+export default function StatCard(props: any) {
+  console.log('props', props);
+  const {
+    title,
+    value,
+    interval,
+    trend,
+    dates,
+    total
+  } = props;
   const theme = useTheme();
   const daysInWeek = getDaysInMonth(4, 2024);
 
@@ -74,7 +77,9 @@ export default function StatCard({
     neutral: 'default' as const,
   };
 
+  // @ts-ignore
   const color = labelColors[trend];
+  // @ts-ignore
   const chartColor = trendColors[trend];
   const trendValues = { up: '+25%', down: '-25%', neutral: '+5%' };
 
@@ -105,13 +110,13 @@ export default function StatCard({
           <Box sx={{ width: '100%', height: 50 }}>
             <SparkLineChart
               color={chartColor}
-              data={data}
+              data={total}
               area
               showHighlight
               showTooltip
               xAxis={{
                 scaleType: 'band',
-                data: daysInWeek, // Use the correct property 'data' for xAxis
+                data: dates, // Use the correct property 'data' for xAxis
               }}
               sx={{
                 [`& .${areaElementClasses.root}`]: {
