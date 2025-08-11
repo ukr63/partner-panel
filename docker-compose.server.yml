@@ -64,7 +64,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1300M
+          memory: 1500M
 
     restart: always
     environment:
