@@ -5,9 +5,7 @@ FROM ubuntu:22.04
 RUN apt-get update && apt-get install -y \
     curl \
     git \
-    nginx \
     && apt-get clean
-
 
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs=20.11.0-1nodesource1
@@ -26,8 +24,6 @@ WORKDIR /app
 COPY frontend/package*.json /app/
 
 COPY frontend /app
-
-COPY .docker/frontend/nginx.conf /etc/nginx/sites-available/default
 
 COPY .docker/frontend/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
