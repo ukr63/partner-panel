@@ -25,7 +25,7 @@ services:
       - PHP_IDE_CONFIG="serverName=partner.local"
       - PHP_IDE_CONFIG=serverName=partner.local
       - APP_DEBUG=0
-      - APP_URL=https://acd.solutions:3001
+      - APP_URL=https://acd.solutions:3005
     volumes:
       - './server:/var/www/html'
     restart: always
@@ -40,7 +40,8 @@ services:
       - /bin/bash
       - -c
       - |
-        composer install --working-dir=/var/www/html --no-dev --optimize-autoloader
+        composer install --working-dir=/var/www/html --no-dev --optimize-autoloader \
+        && php-fpm
 
   frontend:
     build:
