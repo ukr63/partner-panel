@@ -9,7 +9,7 @@ echo "Start npm install"
 if [ "$NODE_ENV" == "production" ]; then
     echo "Running in production mode"
 
-    NODE_OPTIONS="--max-old-space-size=1024" npm run build
+    NODE_OPTIONS="--max-old-space-size=1300" npm run build
     service nginx start
     npm start
 else
