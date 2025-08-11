@@ -9,7 +9,7 @@ npm install --force
 if [ "$NODE_ENV" == "production" ]; then
     echo "Running in production mode"
 
-    npm run build
+    NODE_OPTIONS="--max-old-space-size=1536" npm run build
     service nginx start
     npm start
 else
