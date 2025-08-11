@@ -15,6 +15,10 @@ services:
       - "8080:80"
     networks:
       - backend
+    deploy:
+      resources:
+        limits:
+          memory: 100M
 
   server:
     build:
@@ -41,6 +45,11 @@ services:
       - |
         composer install --working-dir=/var/www/html --no-dev --optimize-autoloader \
         && php-fpm
+    deploy:
+      resources:
+        limits:
+          memory: 400M
+
 
   frontend:
     build:
@@ -53,6 +62,11 @@ services:
       - "3001:3001"
     volumes:
       - './frontend:/app'
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
     restart: always
     environment:
       NODE_ENV: production
