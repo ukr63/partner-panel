@@ -24,7 +24,7 @@ services:
       - PHP_IDE_CONFIG="serverName=partner.local"
       - PHP_IDE_CONFIG=serverName=partner.local
       - APP_DEBUG=0
-      - APP_URL=https://acd.solutions:3005
+      - APP_URL=https://acd.solutions
     volumes:
       - './server:/var/www/html'
     restart: always
@@ -57,6 +57,7 @@ services:
     environment:
       NODE_ENV: production
       NGINX_SERVER_BASE_URL: http://server-nginx
+      APP_URL: https://acd.solutions
 
 volumes:
   code:

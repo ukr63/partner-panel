@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8090/api/proxy',
+    baseURL: 'https://acd.solutions/api/proxy',
     timeout: 10000,
 });
 
