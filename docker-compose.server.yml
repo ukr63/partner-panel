@@ -50,7 +50,6 @@ services:
         limits:
           memory: 400M
 
-
   frontend:
     build:
       context: .
@@ -65,7 +64,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1G
+          memory: 1300M
 
     restart: always
     environment:
