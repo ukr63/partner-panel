@@ -21,13 +21,14 @@ class TrackerController extends AbstractController
         private StreamRepository  $streamRepository,
         private TrackerRepository $trackerRepository,
         private CountryRepository $countryRepository
-    ) {
+    )
+    {
     }
 
     #[Route('/t/{trackerId}', name: 'track', methods: ['GET'])]
     public function tracker(Request $request, string $trackerId)
     {
-        $geoData = Tracker::getInfo($request->getClientIp());
+        $geoData = Tracker::getInfo($this->getIpUser());
         $stream = $this->streamRepository->getByStreamId($trackerId);
 
         $country = null;
@@ -73,5 +74,18 @@ class TrackerController extends AbstractController
         }
 
         return $defaultOffer;
+    }
+
+    private function getIpUser()
+    {
+        $ip = null;
+
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } elseif (!empty($_SERVER['HTTP_X_REAL_IP'])) {
+            $ip = $_SERVER['HTTP_X_REAL_IP'];
+        }
+
+        return $ip;
     }
 }
